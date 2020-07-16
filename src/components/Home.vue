@@ -5,9 +5,9 @@
     <el-header>
       <div>
         <img src="../assets/img/images.jpg" alt="">
-        <span>个人运动平台</span>
+        <span>売上管理システム</span>
       </div>
-      <el-button type="info" @click="logout">安全退出</el-button>
+      <el-button type="info" @click="logout">ログアウト</el-button>
     </el-header>
 <!--    主体-->
     <el-container>
@@ -15,7 +15,7 @@
       <el-aside :width="isCollapse ? '64px' : '200px'">
         <div class="toggle-button" @click="toggleCollapse">|||</div>
         <el-menu background-color="#545c64" text-color="#fff" active-text-color="#409eff" :collapse="isCollapse"
-                 :collapse-transition="false" unique-opened>
+                 :collapse-transition="false" unique-opened :router="true">
 <!--                                                设置单一显示-->
 <!--          一级菜单-->
           <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
@@ -24,7 +24,7 @@
               <span>{{item.title}}</span>
             </template>
 <!--              二级菜单-->
-            <el-menu-item :index="item.id+''" v-for="item in item.sList" :key="item.id">
+            <el-menu-item :index="item.path+''" v-for="item in item.sList" :key="item.id">
               <i class="el-icon-location"></i>
               <span>{{item.title}}</span>
             </el-menu-item>

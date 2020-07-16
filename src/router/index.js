@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import Login from "../components/Login.vue"
 import Home from "../components/Home.vue"
 import Welcome from "../components/Welcome.vue"
-
+import SumLogin from "../components/SumLogin"
 Vue.use(VueRouter)
 
   const routes = [
@@ -21,7 +21,8 @@ Vue.use(VueRouter)
       component: Home,
       redirect: "/welcome",
       children:[
-        {path:"/welcome",component: Welcome,}
+        {path:"/welcome",component: Welcome,},
+        {path:"/sumlogin",component:SumLogin},
       ]
     }
 ]
