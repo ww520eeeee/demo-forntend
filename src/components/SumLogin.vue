@@ -5,6 +5,10 @@
             <el-breadcrumb-item>売上管理</el-breadcrumb-item>
             <el-breadcrumb-item>売上登録</el-breadcrumb-item>
         </el-breadcrumb>
+
+        <el-card>
+
+        </el-card>
     </div>
 </template>
 <script>

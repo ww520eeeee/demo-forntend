@@ -7,7 +7,7 @@
         <img src="../assets/img/images.jpg" alt="">
         <span>売上管理システム</span>
       </div>
-      <el-button type="info" @click="logout">ログアウト</el-button>
+      <el-button type="info" @click="logout" style="margin-right: 8px">ログアウト</el-button>
     </el-header>
 <!--    主体-->
     <el-container>
@@ -92,6 +92,7 @@
     padding-right: 0%;
     color: #fff;
     font-size: 20px;
+    align-items: center;/*使按钮居中*/
     div {
       align-items: center;
       display: flex;
