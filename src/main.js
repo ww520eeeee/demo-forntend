@@ -12,7 +12,9 @@ import axios from 'axios'
 //挂在axios
 Vue.prototype.$http = axios
 //设置访问根路径
-axios.defaults.baseURL = 'http://localhost:9000'
+// axios.defaults.baseURL = 'https://localhost:9000'
+//aws的路径
+axios.defaults.baseURL = 'https://www.chenxueheng.xyz:9000'
 
 Vue.config.productionTip = false
 
