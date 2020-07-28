@@ -1,6 +1,5 @@
 <template>
 <div>
-    <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
 <!--    面包屑导航区-->
 <!--    <el-breadcrumb separator-class="el-icon-arrow-right">-->
 <!--      <el-breadcrumb-item :to="{ path: '/home' }">TOP</el-breadcrumb-item>-->

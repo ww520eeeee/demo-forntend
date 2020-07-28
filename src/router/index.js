@@ -32,7 +32,6 @@ Vue.use(VueRouter)
       children:[
         {path:"/welcome",component: Welcome,
           meta:[
-            {name:"TOP",url:"/welcome"},
             {name:`売上管理`},
             {name:`売上詳細`}
           ]},

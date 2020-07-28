@@ -83,6 +83,7 @@
               }else{
                   // 错误提示
                 this.$message.error("操作失败！");
+                this.loading = false;
               }
           })}
     }
