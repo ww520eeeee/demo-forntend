@@ -1,11 +1,12 @@
 <template>
 <div>
+    <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
 <!--    面包屑导航区-->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">TOP</el-breadcrumb-item>
-      <el-breadcrumb-item>売上管理</el-breadcrumb-item>
-      <el-breadcrumb-item>売上詳細</el-breadcrumb-item>
-    </el-breadcrumb>
+<!--    <el-breadcrumb separator-class="el-icon-arrow-right">-->
+<!--      <el-breadcrumb-item :to="{ path: '/home' }">TOP</el-breadcrumb-item>-->
+<!--      <el-breadcrumb-item>売上管理</el-breadcrumb-item>-->
+<!--      <el-breadcrumb-item>売上詳細</el-breadcrumb-item>-->
+<!--    </el-breadcrumb>-->
 
 <!--    卡片视图区域-->
     <el-card>
@@ -14,12 +15,13 @@
     </el-card>
 
 <!--      表单区域-->
-  <el-card style="margin-top: 10px;padding: 0">
+<!--  <el-card style="margin-top: 10px;padding: 0">-->
 
     <template>
       <el-table
-              :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-              style="width: 100%" :stripe="true" max-height="300">
+              :data="tableData.filter(data => !search || data.cname.toLowerCase().includes(search.toLowerCase()) ||
+              data.data.toLowerCase().includes(search.toLowerCase()))"
+              style="width: 100%;margin-top: 10px" :stripe="true" max-height="300" empty-text="適切なデータがありません">
               <el-table-column
                       fixed
                       prop="data"
@@ -66,27 +68,46 @@
           <template slot-scope="scope" >
             <el-button
                     size="mini"
-                    @click="handleEdit(scope.$index, scope.row)">編集</el-button>
+                    @click="Edit = true">編集</el-button>
             <el-button
                     size="mini"
                     type="danger"
-                    @click="handleDelete(scope.$index, scope.row)">削除</el-button>
+                    @click="Delete = true">削除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </template>
-  </el-card>
-
+<!--  </el-card>-->
+<!--編集box-->
   <el-dialog
           title="編集"
-          :visible.sync="alter"
+          :visible.sync="Edit"
           width="50%">
-    <span>这是一段信息</span>
+      <el-form :model="form">
+          <el-form-item label="金額" :label-width="formLabelWidth">
+              <el-input v-model="form.name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="メモ" :label-width="formLabelWidth">
+              <el-input v-model="form.name" autocomplete="off"></el-input>
+          </el-form-item>
+      </el-form>
     <span slot="footer" class="dialog-footer">
-    <el-button @click="alter = false">取 消</el-button>
-    <el-button type="primary" @click="alter = false">确 定</el-button>
+    <el-button @click="Edit = false">キャンセル</el-button>
+    <el-button type="primary" @click="Edit = false">確 定</el-button>
   </span>
   </el-dialog>
+<!--  確認box-->
+    <el-dialog
+            title="確認"
+            :visible.sync="Delete"
+            width="30%"
+            :before-close="handleClose">
+        <span>削除してよろしいですか</span>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="Delete = false">キャンセル</el-button>
+    <el-button type="primary" @click="Delete = false">確 定</el-button>
+    </span>
+    </el-dialog>
 </div>
 </template>
 <script>
@@ -99,7 +120,20 @@ import echarts from "echarts"
           //table的值
           tableData: [],
           alter: false,
-          search: ''
+          search: '',
+          Edit: false,
+          Delete: false,
+          form: {
+              name: '',
+              region: '',
+              date1: '',
+              date2: '',
+              delivery: false,
+              type: [],
+              resource: '',
+              desc: ''
+          },
+          formLabelWidth: '120px'
       }
       },
       created() {

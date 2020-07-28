@@ -1,37 +1,75 @@
 <template>
 <!--  引入container布局-->
   <el-container class="home-container">
-<!--    头部-->
-    <el-header>
-      <div>
-        <img src="../assets/img/images.jpg" alt="">
-        <span>売上管理システム</span>
-      </div>
-      <el-button type="info" @click="logout" style="margin-right: 8px">ログアウト</el-button>
-    </el-header>
-<!--    主体-->
-    <el-container>
-<!--      侧边栏-->
+      <!--      侧边栏-->
       <el-aside :width="isCollapse ? '64px' : '200px'">
-        <div class="toggle-button" @click="toggleCollapse">|||</div>
-        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#409eff" :collapse="isCollapse"
-                 :collapse-transition="false" unique-opened :router="true">
-<!--                                                设置单一显示-->
-<!--          一级菜单-->
-          <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>{{item.title}}</span>
-            </template>
-<!--              二级菜单-->
-            <el-menu-item :index="item.path+''" v-for="item in item.sList" :key="item.id">
-              <i class="el-icon-location"></i>
-              <span>{{item.title}}</span>
-            </el-menu-item>
+          <div class="toggle-button" @click="toggleCollapse">|||</div>
+          <el-menu background-color="#545c64" text-color="#fff" active-text-color="#409eff" :collapse="isCollapse"
+                   :collapse-transition="false" unique-opened :router="true">
+              <!--                                                设置单一显示-->
+              <!--          一级菜单-->
+              <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
+                  <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>{{item.title}}</span>
+                  </template>
+                  <!--              二级菜单-->
+                  <el-menu-item :index="item.path+''" v-for="item in item.sList" :key="item.id">
+                      <i class="el-icon-location"></i>
+                      <span>{{item.title}}</span>
+                  </el-menu-item>
 
-          </el-submenu>
-        </el-menu>
+              </el-submenu>
+          </el-menu>
       </el-aside>
+<!--    主体-->
+      <el-container>
+          <!--    头部-->
+          <el-header style="height: 50px">
+              <div class="left-menu">
+                  <el-breadcrumb separator-class="el-icon-arrow-right ">
+<!--                      <el-breadcrumb-item :to="{ path: '/home' }">TOP</el-breadcrumb-item>-->
+<!--                      <el-breadcrumb-item>売上管理</el-breadcrumb-item>-->
+<!--                      <el-breadcrumb-item>売上詳細</el-breadcrumb-item>-->
+<!--                      设置动态路由-->
+                      <el-breadcrumb-item v-for="(item,index) in $route.meta" :key="index">
+                          <router-link v-if="item.url" :to="item.url">{{item.name}}</router-link>
+                          <span v-else>
+                              {{item.name}}
+                          </span>
+                      </el-breadcrumb-item>
+                  </el-breadcrumb>
+              </div>
+
+              <div class="right-menu">
+<!--                  <template v-if="device!=='mobile'">-->
+<!--                      <search id="header-search" class="right-menu-item" />-->
+
+<!--                     -->
+
+<!--                  </template>-->
+
+                  <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
+                      <div class="avatar-wrapper">
+                          <img src="../assets/img/images.jpg" class="user-avatar">
+                          <i class="el-icon-caret-bottom" />
+                      </div>
+                      <el-dropdown-menu slot="dropdown">
+<!--                          <router-link to="/user/profile">-->
+<!--                              <el-dropdown-item>个人中心</el-dropdown-item>-->
+<!--                          </router-link>-->
+                          <el-dropdown-item @click.native="setting = true">
+                              <span>布局设置</span>
+                          </el-dropdown-item>
+                          <el-dropdown-item divided @click.native="logout">
+                              <span>退出登录</span>
+                          </el-dropdown-item>
+                      </el-dropdown-menu>
+                  </el-dropdown>
+              </div>
+
+          </el-header>
+
 <!--      主题内容-->
       <el-main>
         <router-view></router-view>
@@ -84,23 +122,17 @@
     height: 100%;
   }
   /*头样式*/
-  .el-header {
-    background-color: #373d41;
-    display: flex;
-    justify-content: space-between;/*左右贴边*/
-    padding-left: 0%; /*左边界*/
-    padding-right: 0%;
-    color: #fff;
-    font-size: 20px;
-    align-items: center;/*使按钮居中*/
-    div {
-      align-items: center;
-      display: flex;
-      span {
-        margin-left: 15px;
-      }
-    }
-  }
+  /*.el-header {*/
+  /*  background-color: #fff;*/
+  /*  display: flex;*/
+  /*  justify-content: space-between;!*左右贴边*!*/
+  /*  padding-left: 0%; !*左边界*!*/
+  /*  padding-right: 0%;*/
+  /*  color: #fff;*/
+  /*  font-size: 20px;*/
+  /*  align-items: center;!*使按钮居中*!*/
+  /*  height: 50px;*/
+  /*}*/
   /*侧边样式*/
   .el-aside {
     background-color: #333744;
@@ -112,12 +144,25 @@
   .el-main {
     background-color: #eaedf1;
   }
-  img{
-    width: 64px;
-    height: 55px;
+  /*img{*/
+  /*  width: 64px;*/
+  /*  height: 55px;*/
+  /*    float: right;*/
+
+  /*}*/
+
+  .left-menu{
+      float: left;
+      height: 100%;
+      line-height: 50px;
+      text-align: center;
+      .el-breadcrumb{
+          font-size: 18px;
+          margin-top: 15px;
+      }
   }
   .toggle-button{
-    background-color: #4a5064;
+      background-color: #4a5064;
     font-size: 10px;
     line-height: 24px;
     color: #fff;
@@ -125,4 +170,53 @@
     letter-spacing: 0.3em;
     cursor: pointer;
   }
+  .right-menu {
+      float: right;
+      height: 100%;
+      line-height: 50px;
+
+      &:focus {
+          outline: none;
+      }
+
+      .right-menu-item {
+          display: inline-block;
+          padding: 0 8px;
+          height: 100%;
+          font-size: 18px;
+          color: #5a5e66;
+          vertical-align: text-bottom;
+
+          &.hover-effect {
+              cursor: pointer;
+              transition: background .3s;
+
+              &:hover {
+                  background: rgba(0, 0, 0, .025)
+              }
+          }
+      }
+  }
+
+  .avatar-container {
+      margin-right: 10px;
+      .avatar-wrapper {
+          margin-top: 5px;
+          position: relative;
+          .user-avatar {
+              cursor: pointer;
+              width: 40px;
+              height: 40px;
+              border-radius: 10px;
+          }
+          .el-icon-caret-bottom {
+              cursor: pointer;
+              position: absolute;
+              right: -20px;
+              top: 25px;
+              font-size: 12px;
+          }
+      }
+    }
+
 </style>

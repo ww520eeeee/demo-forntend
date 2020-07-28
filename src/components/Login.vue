@@ -2,12 +2,9 @@
   <div class="login_container">
 <!--    登陆块-->
     <div class="login_box">
-<!--      logo 头像区域-->
-      <div class="avatar_box">
-        <img src="../assets/logo.png" alt/>
-      </div>
 <!--      表单区域-->
       <el-form ref="loginFormRef" :model="loginForm" label-width="0" class="login_form" :rules="loginRules">
+          <h3 class="title">売上管理システム</h3>
 <!--        用户名-->
         <el-form-item prop="username">
           <el-input v-model="loginForm.username" prefix-icon="iconfont iconxiaoren"></el-input>
@@ -18,11 +15,19 @@
         </el-form-item>
 <!--        按钮-->
         <el-form-item class="btns">
-          <el-button type="primary" @click="login">ログイン</el-button>
+          <el-button type="primary" @click.native.prevent="login" :loading="loading">
+              <span v-if="!loading">登 録</span>
+              <span v-else>登 録 中</span>
+          </el-button>
           <el-button type="info" @click="resetLoginForm">クリア</el-button>
         </el-form-item>
       </el-form>
+    <!--  底部  -->
+
     </div>
+      <div class="el-login-footer">
+          <span>Copyright © 2020 MyDemo All Rights Reserved.</span>
+      </div>
   </div>
 </template>
 
@@ -30,6 +35,7 @@
   export default {
     data() {
         return {
+            loading: false,
             //表单数据对象
             loginForm:{
                 username: 'admin',
@@ -59,23 +65,26 @@
         login(){
             //验证校验规则
           this.$refs.loginFormRef.validate(async valid =>{
+              this.loading = true;
               //验证失败
               if (!valid) return;
               //访问后台
               const {data:res} = await this.$http.post("login",this.loginForm);
               if (res.flag == "ok"){
-                //存储user对象
-                window.sessionStorage.setItem("user",res.user)
-                  //信息提示
-                this.$message.success("ログイン成功！");
-                //页面路由跳转
-                this.$router.push({path:"/home"});
+                  //设置延时
+                  setTimeout(() => {
+                      //存储user对象
+                      window.sessionStorage.setItem("user",res.user)
+                      //信息提示
+                      this.$message.success("登録成功！");
+                      //页面路由跳转
+                      this.$router.push({path:"/home"});
+                  }, 1000);
               }else{
                   // 错误提示
                 this.$message.error("操作失败！");
               }
-          })
-        }
+          })}
     }
   }
 </script>
@@ -83,37 +92,26 @@
 <style lang="less" scoped>
   //根节点样式
   .login_container {
-    background-color: #2b4b6b;
     height: 100%;
+    background-image: url("../assets/img/login-background.jpg");
+      background-size: cover;
+
+  }
+  .title {
+      margin: 0px auto 30px auto;
+      text-align: center;
+      color: #707070;
   }
 
   .login_box {
-    width: 450px;
-    height: 300px;
+    width: 400px;
+    height: 270px;
     background-color: #fff;
-    border-radius: 3px;
+    border-radius: 6px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
-    .avatar_box{
-      width: 130px;
-      height: 130px;
-      border: 1px solid #eee;
-      border-radius: 50%;
-      padding: 5px;
-      box-shadow: 0 0 2px #ddd;
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      background-color: #0ee;
-      img{
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background-color: #eee;
-      }
-    }
   }
   .btns{
     display: flex;
@@ -125,5 +123,17 @@
     width: 100%;
     padding: 0 10px;
     box-sizing: border-box;
+  }
+  .el-login-footer {
+      height: 40px;
+      line-height: 40px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-family: Arial;
+      font-size: 12px;
+      letter-spacing: 1px;
   }
 </style>

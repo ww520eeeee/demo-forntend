@@ -6,9 +6,9 @@ import './plugins/element.js'
 import './assets/css/global.css'
 //引入iconfont
 import './assets/font/iconfont.css'
-
 //导入axios
 import axios from 'axios'
+
 //挂在axios
 Vue.prototype.$http = axios
 //设置访问根路径
